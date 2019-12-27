@@ -45,11 +45,14 @@ defmodule TextClient.Player do
   end
 
   defp display(game) do
+    game
   end
 
   defp prompt(game) do
+    game
   end
 
   defp make_move(game) do
+    game
   end
 end

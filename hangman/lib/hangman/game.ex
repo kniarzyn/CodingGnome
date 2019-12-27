@@ -24,7 +24,7 @@ defmodule Hangman.Game do
     }
   end
 
-  def make_move(game = %{game_state: state}, move) when state in [:won, :lost] do
+  def make_move(game = %{game_state: state}, _move) when state in [:won, :lost] do
     game
   end
 
@@ -32,7 +32,7 @@ defmodule Hangman.Game do
     accept_move(game, move, MapSet.member?(game.used, move))
   end
 
-  defp accept_move(game, move, _allready_used = true) do
+  defp accept_move(game, _move, _allready_used = true) do
     Map.put(game, :game_state, :allready_used)
   end
 
