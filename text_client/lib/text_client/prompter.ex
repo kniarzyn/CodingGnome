@@ -16,7 +16,6 @@ defmodule TextClient.Prompter do
   end
 
   defp check_input(input, game) do
-    IO.inspect(game)
     # \n - new line == space
     input = String.trim(input)
 
