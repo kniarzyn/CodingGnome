@@ -1,5 +1,0 @@
-#EXTM3U 
-#EXTVLCOPT--http-reconnect=true 
-#EXTINF:-1,CBS Action
-#EXTVLCOPT:program=17026
-http://192.168.88.109:8001/1:0:1:4282:2BC0:13E:820000:0:0:0:

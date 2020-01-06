@@ -1,10 +1,14 @@
 defmodule Dictionary.WordList do
-  def start_link() do
-    {:ok, agent} = Agent.start_link(&words_list/0)
+  use Agent
+
+  @me __MODULE__
+
+  def start_link(_params) do
+    Agent.start_link(&words_list/0, name: @me)
   end
 
-  def random_word(agent) do
-    Agent.get(agent, &Enum.random/1)
+  def random_word() do
+    Agent.get(@me, &Enum.random/1)
   end
 
   def words_list() do
@@ -13,4 +17,9 @@ defmodule Dictionary.WordList do
     |> File.read!()
     |> String.split(~r/\n/)
   end
+
+  # ## Callbacks
+  # def init(_params) do
+  #   {:ok, []}
+  # end
 end

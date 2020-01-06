@@ -14,26 +14,26 @@ defmodule GameTest do
   test "game state do not change when game is won or lost" do
     for state <- [:won, :lost] do
       game = Game.new_game() |> Map.put(:game_state, state)
-      assert ^game = Game.make_move(game, "x")
+      assert {^game, _tally} = Game.make_move(game, "x")
     end
   end
 
   test "game state change on letter is allready used or not" do
-    game = Game.new_game("box") |> Game.make_move("x")
+    {game, _tally} = Game.new_game("box") |> Game.make_move("x")
     assert game.game_state != :allready_used
-    game = Game.make_move(game, "x")
+    {game, _tally} = Game.make_move(game, "x")
     assert game.game_state == :allready_used
   end
 
   test "when good letter ar given game states are chenged" do
-    game = Game.new_game("better") |> Game.make_move("b")
+    {game, _tally} = Game.new_game("better") |> Game.make_move("b")
     assert MapSet.member?(game.used, "b")
     assert game.game_state == :good_guess
     assert game.turns_left == 7
   end
 
   test "when all letters are given game_state is :won" do
-    game =
+    {game, _tally} =
       Game.new_game("better")
       |> Map.put(:used, MapSet.new(["b", "e", "t"]))
       |> Game.make_move("r")
@@ -42,7 +42,7 @@ defmodule GameTest do
   end
 
   test "when good guess turns left is not decrement" do
-    game =
+    {game, _tally} =
       Game.new_game("better")
       |> Map.put(:used, MapSet.new(["b"]))
       |> Game.make_move("r")
@@ -51,7 +51,7 @@ defmodule GameTest do
   end
 
   test "when bad guess turns left is decrement" do
-    game =
+    {game, _tally} =
       Game.new_game("better")
       |> Map.put(:used, MapSet.new(["b"]))
       |> Game.make_move("c")
@@ -60,7 +60,7 @@ defmodule GameTest do
   end
 
   test "game is lost when not turns left" do
-    game =
+    {game, _tally} =
       Game.new_game("better")
       |> Map.put(:turns_left, 1)
       |> Game.make_move("c")
@@ -83,7 +83,7 @@ defmodule GameTest do
     |> Enum.reduce(
       Game.new_game("wibble"),
       fn {guess, state, turns_left}, game ->
-        game = Game.make_move(game, guess)
+        {game, _tally} = Game.make_move(game, guess)
         assert {game.turns_left, game.game_state} == {turns_left, state}
         game
       end
